@@ -1,0 +1,6 @@
+Homework: 
+
+
+
+
+1. sudo certbot certonly --manual -d lusine-avanesyan.devopsaca.site -d www.lusine-avanesyan.devopsaca.site
