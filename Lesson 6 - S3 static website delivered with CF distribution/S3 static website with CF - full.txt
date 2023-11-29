@@ -61,8 +61,8 @@ Domain name =  lusine-avanesyan.devopsaca.site
 the other options remain as they are by default
 
 7. After certificate is created -> click on the certificate itself -> Create Records in Route53 -> Create Record
-It creates a CNAMe record with a subdomain, but this is under the certificate
-After a few minutes, the certificate becomes Issued
+It creates a CNAME record with a subdomain, but this is under the certificate. Also adds it into the Route53 records.
+After a few minutes, the certificate becomes Issued.
 
 8. CloudFront -> Distribution -> Settings
 8a) Add Alternate domain name = lusine-avanesyan.devopsaca.site
