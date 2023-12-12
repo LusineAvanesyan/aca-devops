@@ -43,3 +43,4 @@ aws ec2 run-instances \
   --region $AWS_REG
 
 echo "Keccess!!! Script execution completed!"
+

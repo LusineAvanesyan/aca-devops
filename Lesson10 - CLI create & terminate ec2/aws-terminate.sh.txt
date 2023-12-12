@@ -9,10 +9,18 @@ instance_ids=$(aws ec2 describe-instances \
 # Check if there are any running instances
 if [ -z "$instance_ids" ]; then
     echo "No running instances found."
-else
-    # Loop and terminate
-    for ec2_id in $instance_ids; do
-        echo "Terminating instance: $ec2_id"
-        aws ec2 terminate-instances --instance-ids $ec2_id
-    done
 fi
+
+# Iterate through running instances
+for instance_id in $instance_ids; do
+    # Check if the instance has the 'permanent' tag
+    has_permanent_tag=$(aws ec2 describe-instances --instance-ids "$instance_id" --query 'Reservations[0].Instances[0].Tags[?Key==`permanent`]' --output text)
+
+    if [ -z "$has_permanent_tag" ] || [ "$has_permanent_tag" == "None" ]; then
+        # Instance does not have the 'permanent' tag, terminate it
+        echo "Terminating EC2 instance $instance_id as it does not have the 'permanent' tag."
+        aws ec2 terminate-instances --instance-ids "$instance_id"
+    else
+        echo "Skipping termination of EC2 instance $instance_id as it has the 'permanent' tag."
+    fi
+done
