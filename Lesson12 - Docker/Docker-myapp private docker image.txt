@@ -1,0 +1,66 @@
+1. AWS -> EC2 -> Launch instance
+2. SSH to that ec2 from my local ubuntu
+ssh -i "lus-key2.pem" ubuntu@ec2-3-85-28-16.compute-1.amazonaws.com
+
+3. EC2 -> Security Groups -> Add Inbound rule
+TCP, custom, 700 to  0.0.0.0/0
+
+4. Install docker. As my Ubuntu is 22.04.1, I need to install docker.io
+sudo apt install docker.io
+
+5. Create my app folder and inside create index.html and Dockerfile, as if this is my web application repository.
+mkdir app
+cd app
+vim index.html
+   <h1>Inch ka chka</h1>
+
+
+vim Dockerfile
+
+FROM ubuntu:latest
+
+RUN apt-get update && apt-get install -y nginx
+
+COPY index.html /var/www/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx when the container starts
+CMD ["nginx", "-g", "daemon off;"]
+
+
+
+
+6. Run the following command to make the Docker image file based on Dockerfile.
+Here -t is the option for the name and tag. Name is myweb. Tag is my given version 1.0.
+
+sudo docker build -t myweb:1.0 ~/app
+
+
+7. After successful docker image creation, we can run the following command and make sure our image is there.
+sudo docker images
+
+
+8. Now, let's run the docker image and make it a container. I have named the container mycontLus.
+ sudo docker run --name mycontLus -d -p 700:80 myweb:1.0
+
+9. After container's successful run, make sure we see it in the running containers list.
+sudo docker ps
+
+10. Now, let's make sure the website is served from my custom container. Open the following in the browser:
+http://3.85.28.16:700/
+
+Make sure you see a white page with a text "Inch ka chka".
+
+
+11. Login to dockerhub, to copy the image there.
+sudo docker login
+
+12. First, we need to tag the docker image with the apppropriate dockerhub username and repo name, and then push it.
+sudo docker tag myweb:1.0 avanesyanlusine/my-nginx-web:1.0
+sudo docker push avanesyanlusine/my-nginx-web:1.0
+
+
+
+
