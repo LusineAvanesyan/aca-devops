@@ -9,4 +9,5 @@ Homework:
 
 Solution:
 1. Create myapp folder, inside appropriate folders for backend, db and proxy, and the compose file.
-2.
+2. Clone the repo into ec2, cd to the myapp folder and run docker-compose command 
+$ sudo docker-compose up -d
